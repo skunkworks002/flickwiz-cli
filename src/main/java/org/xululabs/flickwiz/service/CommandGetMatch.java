@@ -9,10 +9,10 @@ public class CommandGetMatch {
     @Parameter(names = "--help", help = true, description = "Display help")
     private boolean help = false;
     
-    @Parameter(names = "-i", description = "image path")
+    @Parameter(names = "-i", description = "image path" ,required=true)
     private String imagePath;
     
-    @Parameter(names = "-max", description = "set list limt")
+    @Parameter(names = "-max", description = "set list limt" )
     private int max = 5;
     
     @Parameter(names = "-o", description = "path to output file")

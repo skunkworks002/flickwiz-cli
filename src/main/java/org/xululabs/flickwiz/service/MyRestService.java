@@ -3,7 +3,6 @@ package org.xululabs.flickwiz.service;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,7 +25,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.features2d.DMatch;
 import org.opencv.features2d.DescriptorMatcher;
-import org.springframework.context.support.StaticApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -61,8 +59,7 @@ public class MyRestService {
 	private static boolean startFirstTime = true;
 
 	public ResponseModel getFeatureResult(File uploadedImage) {
-		System.out.println("Request Received on path /uploadImage");
-		System.out.println(uploadedImage);
+		
 		Loader.init();
 
 		if (startFirstTime) {
@@ -82,7 +79,7 @@ public class MyRestService {
 		List<SimilarityIndex> similarIndices = new ArrayList<SimilarityIndex>();
 		try {
 			BufferedImage img = ImageIO.read(uploadedImage);
-			System.out.println(img.getWidth() + " * " + img.getHeight());
+			System.out.println("Query image dimensions : "+img.getWidth() + " * " + img.getHeight());
 
 			descriptorMatcher = DescriptorMatcher
 					.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
@@ -156,9 +153,10 @@ public class MyRestService {
 						tempList.add(similarIndices.get(i).getName());
 						++count;
 
-						System.out.println("Inserting data" + count);
+						
 					}
 					if (count == 5) {
+						System.out.println("Number of movies as result : " + count);
 						count = 0;
 						break;
 					}
@@ -227,7 +225,7 @@ public class MyRestService {
 		// String checkString = new String();
 
 		CSVReader reader = new CSVReader(
-				new FileReader("movieFile/moviess.csv"), ',', '\"', 1);
+				new FileReader("movieFile/movies.csv"), ',', '\"', 1);
 
 		while ((nextLine = reader.readNext()) != null) {
 			// nextLine[] is an array of values from the line
@@ -248,7 +246,7 @@ public class MyRestService {
 			 * You can uncomment these lines if you to see that csv is parsed
 			 * correctly
 			 */
-			System.out.println();
+			System.out.println(counter);
 			System.out.println("Name ==> " + imageName);
 			System.out.println("Url ==> " + imageUrl);
 			System.out.println();
@@ -257,11 +255,39 @@ public class MyRestService {
 			++counter;
 
 		}
-		//writeDataToCSV(posters_TrainDescriptors.get(0));
-		 //writeDataToCSV(posters_TrainDescriptors.get(1));
-		 //writeDataToCSV(posters_TrainDescriptors.get(2));
-		 //writeDataToCSV(posters_TrainDescriptors.get(3));
 		reader.close();
+		
+		
+		
+		for(int i=0;i<posters_TrainDescriptors.size();i++)
+		{
+		
+			
+		BufferedWriter bw=new BufferedWriter(new FileWriter("AllMatrixInfo.txt",true));
+		bw.write(posterNames.get(i));
+		bw.write( "  Feature matrix # "+ i+ "--->");
+		bw.write(" "+posters_TrainDescriptors.get(0).rows()+" * "+posters_TrainDescriptors.get(0).cols());
+		bw.newLine();
+		bw.close();
+		}
+		
+		/*
+		for(int i=0;i<posters_TrainDescriptors.size();i++)
+		{
+		BufferedWriter bw=new BufferedWriter(new FileWriter("AllMatrixData.txt",true));
+		bw.write("Feature matrix # "+ i);
+		bw.write(posters_TrainDescriptors.get(0).rows()+" * "+posters_TrainDescriptors.get(0).cols());
+		bw.write(posters_TrainDescriptors.get(0).dump());
+		bw.close();
+		}
+		*/
+		/*
+		 * This piece of code is for write matrix dat to csv
+		 */
+		//for(int i=0;i<posters_TrainDescriptors.size();i++)
+		//{
+		//writeDataToCSV(posters_TrainDescriptors.get(i));
+		//}
 	}
 
 	private void writeDataToCSV(Mat mat) throws IOException {
@@ -269,15 +295,15 @@ public class MyRestService {
 		CSVWriter csvWriter = new CSVWriter(new FileWriter(
 				"movieFile/features.csv", true));
 		List<String[]> dataMat = new ArrayList<String[]>();
-	//	dataMat.add(new String[] {"deatail",mat.rows()+"",mat.cols()+"" });
-		dataMat.add(new String[] {"deatail",10+"",10+"" });
+	dataMat.add(new String[] {"detail",mat.rows()+"",mat.cols()+"" });
+	//	dataMat.add(new String[] {"detail",10+"",10+"" });
 
 		double[] data;
-		for (int row = 0; row < 10; row++) {
-			String[] temp = new String[10];
-			for (int col = 0; col < 10; col++) {
+		for (int row = 0; row <mat.rows(); row++) {
+			String[] temp = new String[mat.cols()];
+			for (int col = 0; col <mat.cols(); col++) {
 				data = mat.get(row, col);
-				System.out.println(data[0]);
+				//System.out.println(data[0]);
 				String d = Double.toString(data[0]);
 				temp[col] = d;
 			}
@@ -312,7 +338,7 @@ public class MyRestService {
 			row=dataMat.get(i);
 			
 			////////Check the details ////
-			if(row[0].equals("deatail"))
+			if(row[0].equals("detail"))
 			{	
 				System.out.println(++matcounter);
 					

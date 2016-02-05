@@ -11,15 +11,17 @@ import com.beust.jcommander.JCommander;
 
 public class Application {
 
+	
 	public static void main(String[] args) {
 
+		String path=null;
 	
 	 	String cmd = "";
 		for (int i = 0; i < args.length; i++) {
 			cmd = cmd +" "+ args[i];
 		}
 
-		System.out.println(cmd);
+		
 		
 		//String cmd = "getMatch -i path_to_image -max 15 -o _output_file.txt";
 		
@@ -34,16 +36,22 @@ public class Application {
         if(getMatch.isHelp()){
             jcommander.usage(parsedCommand);
             return;    
+        }else
+        {
+        	path=getMatch.getImagePath();
         }
         
-         System.out.println(getMatch);
+        
+        
 		
          
          ///////////////////// Query Images ////////////////////
         
-         /*
-         File queryImage=new File("queryImages/iron.jpg");
+         
+         File queryImage=new File(path);
          System.out.println("Query Images Name : "+queryImage);
+         
+         if(queryImage.exists()){
          
          MyRestService mService=new MyRestService();
          ResponseModel mResult=new ResponseModel();
@@ -54,22 +62,27 @@ public class Application {
          
          for(int i=0;i<movieNames.size();i++)
          {
-        	 System.out.println(movieNames.get(i).toString());
+        	 
+        	 System.out.println(i+"--"+" Movie Name : "+ movieNames.get(i).toString());
         	 
          }
-         */
+         }else
+         {
+        	 System.out.println("File Path is incorrect");
+         }
+        /*
          
          try {
         	 Loader.init();
         	 MyRestService mService=new MyRestService();
              	
 			mService.readDataFromCSV();
-			//mService.readLineByLine();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		*/
 
 	}
 }

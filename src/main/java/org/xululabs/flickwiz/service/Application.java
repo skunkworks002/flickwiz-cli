@@ -22,7 +22,7 @@ public class Application {
 			
 		while(true)
 		{
-			System.out.print("flickwiz >>");
+			System.out.print("flickwiz >");
 				String cmdInput = scanner.nextLine();	
 				if(cmdInput==null || cmdInput.length()< 12)
 				{

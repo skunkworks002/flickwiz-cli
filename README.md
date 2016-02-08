@@ -21,17 +21,17 @@ Download zip file - [download](https://github.com/skunkworks002/flickwiz-cli/arc
 `startup.bat` **Windows**
 <br><br>
 
-Run either of the available flickwiz>> commands</b>
+Run either of the available Flickwiz commands</b>
 
 ####Help
 use option `--help` with tsak command to display command options e.g.<br>
-`flickwiz>> getMatch --help`
+`flickwiz > getMatch --help`
 
 
 ####Available Flickwiz Commands [detail usage](https://github.com/skunkworks002/flickwiz-cli/wiki/Command-Line-Usage)
 
-`flickwiz>>  getMatch -i queryImages/iron.jpg`<br>
-`flickwiz>>  getMatch --help`<br>
+`flickwiz >  getMatch -i queryImages/iron.jpg`<br>
+`flickwiz >  getMatch --help`<br>
 
 
 ## License

@@ -238,14 +238,16 @@ public class MyRestService {
 					"\"") ? nextLine[0].substring(1, nextLine[0].length() - 1)
 					: nextLine[0]);
 
-			posters_TrainDescriptors.add(counter, featuresORB
+			/*	posters_TrainDescriptors.add(counter, featuresORB
 					.getORBFeaturesDescriptorMat(Converter.img2Mat(ImageIO
 							.read(new URL(imageUrl)))));
-
+			 */
 			/*
 			 * You can uncomment these lines if you to see that csv is parsed
 			 * correctly
 			 */
+			
+			
 			System.out.println(counter);
 			System.out.println("Name ==> " + imageName);
 			System.out.println("Url ==> " + imageUrl);
@@ -257,8 +259,9 @@ public class MyRestService {
 		}
 		reader.close();
 		
+		posters_TrainDescriptors.addAll(readDataFromCSV());
 		
-		
+		/*
 		for(int i=0;i<posters_TrainDescriptors.size();i++)
 		{
 		
@@ -270,7 +273,7 @@ public class MyRestService {
 		bw.newLine();
 		bw.close();
 		}
-		
+		*/
 		/*
 		for(int i=0;i<posters_TrainDescriptors.size();i++)
 		{
@@ -317,11 +320,11 @@ public class MyRestService {
 
 
 	
-	public void readDataFromCSV() throws IOException {
+	public LinkedList<Mat> readDataFromCSV() throws IOException {
 		
 		int matcounter=0;
 		
-		List<Mat> matList = new ArrayList<Mat>();
+		LinkedList<Mat> matList = new LinkedList<Mat>();
 		CSVReader csvReader = new CSVReader(new FileReader(
 				"movieFile/features.csv"), ',');
 		String[] row;
@@ -340,11 +343,10 @@ public class MyRestService {
 			////////Check the details ////
 			if(row[0].equals("detail"))
 			{	
-				System.out.println(++matcounter);
-					
+				//System.out.print(++matcounter);	
 				rw=Integer.parseInt(row[1]);
 				cl=Integer.parseInt(row[2]);
-				System.out.println(rw +" * "+ cl);
+				//System.out.println(" : "+rw +" * "+ cl);
 				Mat m=new Mat(rw, cl, CvType.CV_8UC1);
 				matList.add(m);
 				matrow=-1;
@@ -356,32 +358,23 @@ public class MyRestService {
 				{
 					 
 					  double d=Double.parseDouble(row[j]);
-					  System.out.print("\t"+row[j]);
-					  // System.out.print("["+count+"]"+"["+j+"]"+"["+d+"]"); 
+					//  System.out.print("\t"+row[j]);
 					  matList.get(matList.size()-1).put(matrow, j,d); 
 					  double[] dd=matList.get(matList.size()-1).get(matrow, j); 
-					  //System.out.println(dd[0]);
-					  
 				}
 				
 			}
-			System.out.println();	
+		//	System.out.println();	
 			
 		}
-		
+		//System.out.println(matList.get(0).dump());
+		/*
 		for(int i=0;i<matList.size();i++){
 			System.out.println();
 			System.out.println(matList.get(i).dump());
-//			writeDataToCSV(matList.get(i));
-		}
-		/*
-		 * Mat m=new Mat(10,10,CvType.CV_8UC1); for (int i=0;i<10;i++) { row
-		 * =dataMat.get(i) ; for (int j = 0; j < row.length; j++) {
-		 * System.out.println(row[j]); double d=Double.parseDouble(row[j]);
-		 * System.out.println("["+i+"]"+"["+j+"]"+"["+d+"]"); m.put(i, j,d); }
-		 * 
-		 * } System.out.println(m.dump());
-		 */
+				}
+		*/
+		return matList;
 	}
 
 	/*

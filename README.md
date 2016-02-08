@@ -28,7 +28,7 @@ use option `--help` with tsak command to display command options e.g.<br>
 `flickwiz>> getMatch --help`
 
 
-####Available Tsak Commands [detail usage](https://github.com/skunkworks002/flickwiz-cli/wiki/Command-Line-Usage)
+####Available Flickwiz Commands [detail usage](https://github.com/skunkworks002/flickwiz-cli/wiki/Command-Line-Usage)
 
 `flickwiz>>  getMatch -i queryImages/iron.jpg`<br>
 `flickwiz>>  getMatch --help`<br>
